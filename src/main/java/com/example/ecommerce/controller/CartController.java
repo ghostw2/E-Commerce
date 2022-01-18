@@ -4,6 +4,8 @@ import com.example.ecommerce.common.ApiResponse;
 import com.example.ecommerce.dto.cart.AddToCartDto;
 import com.example.ecommerce.dto.cart.CartDto;
 import com.example.ecommerce.exceptions.AuthenticationFailException;
+import com.example.ecommerce.exceptions.CartItemNotExistException;
+import com.example.ecommerce.exceptions.ProductNotExistException;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.service.CartService;
@@ -37,7 +39,7 @@ public class CartController {
         User user = tokenService.getUser(token);
         Product product = productService.findById(addToCartDto.getProductId());
         System.out.println("product to add"+  product.getName());
-        cartService.addToCart(addToCartDto, user );
+        cartService.addToCart(addToCartDto,product, user );
 
         return new ResponseEntity<>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
     }
@@ -58,7 +60,7 @@ public class CartController {
     @DeleteMapping("/delete/{cartItemId}")
     public ResponseEntity<ApiResponse> deleteCartItem(@PathVariable("cartItemId") Long itemId,
                                                       @RequestParam("token") String token)
-    throws AuthenticationFailException, CartItemNotExistException{
+    throws AuthenticationFailException, CartItemNotExistException {
         // authenticate the token
         tokenService.authenticate(token);
         // find the user
@@ -70,7 +72,7 @@ public class CartController {
     @PutMapping("/update/{cartItemId}")
     public ResponseEntity<ApiResponse> updateCart(@RequestBody @Valid AddToCartDto addToCartDto,
                                                     @RequestParam("token") String token)
-            throws AuthenticationFailException,ProductNotExistException{
+            throws AuthenticationFailException, ProductNotExistException {
         tokenService.authenticate(token);
         User user = tokenService.getUser(token);
         Product product = productService.findById(addToCartDto.getProductId());

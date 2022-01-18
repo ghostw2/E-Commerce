@@ -1,15 +1,13 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.dto.ProductDto;
-import com.example.ecommerce.exceptions.ProductNotExistsException;
+import com.example.ecommerce.exceptions.ProductNotExistException;
 import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,10 +61,10 @@ public class ProductService {
 
         productRepo.save(product);
     }
-    public Product findById (Long id) throws ProductNotExistsException{
+    public Product findById (Long id) throws ProductNotExistException {
         Optional<Product> optionalProduct = productRepo.findById(id);
         if(optionalProduct.isEmpty()){
-            throw new ProductNotExistsException("product id is invalid: " + id);
+            throw new ProductNotExistException("product id is invalid: " + id);
         }
         return optionalProduct.get();
     }
