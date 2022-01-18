@@ -19,24 +19,17 @@ import java.util.Optional;
 
 @Service
 public class CartService {
-    @Autowired
-    ProductService productService;
+
     @Autowired
     CartRepository cartRepository;
+    public CartService(){}
 
-    public void addToCart(AddToCartDto addToCartDto, User user) {
-
-        // validate if the product id is valid
-        Product product = productService.findById(addToCartDto.getProductId());
-
-        Cart cart = new Cart();
-        cart.setProduct(product);
-        cart.setUser(user);
-        cart.setQuantity(addToCartDto.getQuantity());
-        cart.setCreatedDate(new Date());
-
-
-        // save the cart
+    public CartService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
+    public void addToCart(AddToCartDto addToCartDto,Product product, User user) {
+            Cart cart = new Cart(product,addToCartDto.getQuantity(),user);
+            // save the cart
         cartRepository.save(cart);
 
     }
@@ -47,34 +40,38 @@ public class CartService {
         List<CartItemDto> cartItems = new ArrayList<>();
         double totalCost = 0;
         for (Cart cart: cartList) {
-            CartItemDto cartItemDto = new CartItemDto(cart);
-            totalCost += cartItemDto.getQuantity() * cart.getProduct().getPrice();
+            CartItemDto cartItemDto = getDtoFromCart(cart);
             cartItems.add(cartItemDto);
         }
         //instantiate cart with items inside price
-        CartDto cartDto = new CartDto();
-        cartDto.setTotalCost(totalCost);
-        cartDto.setCartItems(cartItems);
-        return  cartDto;
+        for(CartItemDto  cartItemDto : cartItems ){
+            totalCost += (cartItemDto.getQuantity() * cartItemDto.getProduct().getPrice());
+        }
+        return  new CartDto(cartItems,totalCost);
     }
-    public void deleteCartItem(Long cartItemId, User user) {
+        public static CartItemDto getDtoFromCart(Cart cart){
+            retrun new CartItemDto(cart);
+        }
+    public void deleteCartItem(Long cartItemId, Long  userId) {
         // the item id belongs to user
-
-        Optional<Cart> optionalCart = cartRepository.findById(cartItemId);
-
-        if (optionalCart.isEmpty()) {
-            throw new CustomException("cart item id is invalid: " + cartItemId);
+        if (!cartRepository.existsById(cartItemId)) {
+            throw new CartItemNotExistException("Cart id is invalid : " + cartItemId);
         }
-
-        Cart cart = optionalCart.get();
-
-        if (cart.getUser() != user) {
-            throw  new CustomException("cart item does not belong to user: " +cartItemId);
-        }
-
-        cartRepository.delete(cart);
-
+        cartRepository.deleteById(cartItemId);
+    }
+    public void updateCartItem(AddToCartDto addToCartDto, User user,Product product) {
+        Cart cart  = cartRepository.getById(addToCartDto.getId());
+        cart.setQuantity(addToCartDto.getQuantity());
+        cart.setCreatedDate(new Date());
+        cartRepository.save(cart);
 
     }
+    public void deleteCartItems(int userId) {
+        cartRepository.deleteAll();
+    }
+    public void deleteUserCartItems(User user) {
+        cartRepository.deleteByUser(user);
+    }
+
 
 }

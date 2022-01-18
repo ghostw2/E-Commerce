@@ -12,4 +12,5 @@ public interface CartRepository extends JpaRepository<Cart,Long> {
 
 
     List<Cart> findAllByUserOrderByCreatedDateDesc(User user);
+    List<Cart> deleteByUser(User user);
 }

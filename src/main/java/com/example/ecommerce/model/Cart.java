@@ -21,7 +21,7 @@ public class Cart {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class , fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -29,5 +29,11 @@ public class Cart {
 
     public Cart(){
 
+    }
+    public Cart(Product product, int quantity, User user){
+        this.user = user;
+        this.product = product;
+        this.quantity = quantity;
+        this.createdDate = new Date();
     }
 }
