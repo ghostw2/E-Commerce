@@ -1,8 +1,10 @@
 package com.example.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,11 +26,23 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    public User(String firstName, String lastName, String email, String password) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY)
+    private List<Order> orders;
+
+    public User(String firstName, String lastName, String email, Role role, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.role = role;
         this.password = password;
     }
-    public User(){};
+
+    public User() {
+    }
 }

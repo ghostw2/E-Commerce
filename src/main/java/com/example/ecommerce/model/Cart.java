@@ -1,5 +1,6 @@
 package com.example.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.jfr.Enabled;
 import lombok.Data;
 
@@ -18,11 +19,12 @@ public class Cart {
     private Date createdDate;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = User.class , fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(nullable = false,name = "user_id")
     private User user;
 
     private int quantity;

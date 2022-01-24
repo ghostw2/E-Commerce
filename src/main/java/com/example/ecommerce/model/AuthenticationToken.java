@@ -18,7 +18,6 @@ public class AuthenticationToken {
     private String token;
 
     @Column(name = "created_date")
-
     private Date createdDate;
 
     @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
@@ -32,6 +31,12 @@ public class AuthenticationToken {
     }
 
     public AuthenticationToken() {
+    }
+    public AuthenticationToken(Long id, String Token, Date createdDate, User user) {
+        this.id = id;
+        this.token = Token;
+        this.createdDate = createdDate;
+        this.user = user;
     }
 
 
