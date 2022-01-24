@@ -1,5 +1,6 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.config.MessageStrings;
 import com.example.ecommerce.dto.ProductDto;
 import com.example.ecommerce.exceptions.AuthenticationFailException;
 import com.example.ecommerce.model.AuthenticationToken;
@@ -22,10 +23,12 @@ public class TokenService {
     public void saveAuthenticationToken(AuthenticationToken authenticationToken){
             tokenRepo.save(authenticationToken);
     }
+
     public AuthenticationToken getAuthenticationToken(User user){
         return tokenRepo.findByUser(user);
 
     }
+
     public User getUser(String token){
         final AuthenticationToken authenticationToken = tokenRepo.findByToken(token);
         if(Objects.isNull(authenticationToken)){
@@ -33,12 +36,13 @@ public class TokenService {
         }
         return authenticationToken.getUser();
     }
+
     public void authenticate (String token) throws AuthenticationFailException {
         if(Objects.isNull(token)){
-            throw  new AuthenticationFailException("token is not present");
+            throw  new AuthenticationFailException(MessageStrings.AUTH_TOEKN_NOT_PRESENT);
         }
         if(Objects.isNull(getUser(token))){
-            throw new AuthenticationFailException("token is not valid");
+            throw new AuthenticationFailException(MessageStrings.AUTH_TOEKN_NOT_VALID);
         }
 
     }

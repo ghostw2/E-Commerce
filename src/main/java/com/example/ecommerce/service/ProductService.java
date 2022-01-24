@@ -19,46 +19,21 @@ public class ProductService {
     ProductRepository productRepo;
 
     public void save(ProductDto productDto, Category category) {
-        Product product = new Product();
-        product.setCategory(category);
-        product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
-        product.setName(productDto.getName());
-        product.setImageUrl(productDto.getImageUrl());
+        Product product = getProductFromDto(productDto, category);
         productRepo.save(product);
-    }
-    public ProductDto getProductDto(Product product){
-        ProductDto productDto = new ProductDto();
-        productDto.setCategoryId(product.getCategory().getId());
-        productDto.setDescription(product.getDescription());
-        productDto.setPrice(product.getPrice());
-        productDto.setName(product.getName());
-        productDto.setImageUrl(product.getImageUrl());
-
-        productDto.setId(product.getId());
-        return productDto;
     }
 
     public List<ProductDto> getAllProducts() {
         List<Product> allProducts = productRepo.findAll();
         List<ProductDto> allProductsDto = new ArrayList<>();
         for (Product product :allProducts) {
-            allProductsDto.add(getProductDto(product));
+            allProductsDto.add(getDtoFromProduct(product));
         }
         return allProductsDto;
      }
-    public void updateProduct(ProductDto productDto, Long productId) throws Exception {
-        Optional<Product> optionalProduct = productRepo.findById(productId);
-        // throw an exception if product does not exists
-        if (!optionalProduct.isPresent()) {
-            throw new Exception("product not present");
-        }
-        Product product = optionalProduct.get();
-        product.setDescription(productDto.getDescription());
-        product.setImageUrl(productDto.getImageUrl());
-        product.setName(productDto.getName());
-        product.setPrice(productDto.getPrice());
-
+    public void updateProduct(ProductDto productDto, Long productId, Category category) throws Exception {
+        Product product = getProductFromDto(productDto, category);
+        product.setId(productId);
         productRepo.save(product);
     }
     public Product findById (Long id) throws ProductNotExistException {
@@ -67,5 +42,15 @@ public class ProductService {
             throw new ProductNotExistException("product id is invalid: " + id);
         }
         return optionalProduct.get();
+    }
+
+    public static ProductDto getDtoFromProduct(Product product) {
+        ProductDto productDto = new ProductDto(product);
+        return productDto;
+    }
+
+    public static Product getProductFromDto(ProductDto productDto, Category category) {
+        Product product = new Product(productDto, category);
+        return product;
     }
 }

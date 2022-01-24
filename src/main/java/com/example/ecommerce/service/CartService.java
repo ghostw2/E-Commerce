@@ -3,6 +3,7 @@ package com.example.ecommerce.service;
 import com.example.ecommerce.dto.cart.AddToCartDto;
 import com.example.ecommerce.dto.cart.CartDto;
 import com.example.ecommerce.dto.cart.CartItemDto;
+import com.example.ecommerce.exceptions.CartItemNotExistException;
 import com.example.ecommerce.exceptions.CustomException;
 import com.example.ecommerce.model.Cart;
 import com.example.ecommerce.model.Product;
@@ -12,12 +13,14 @@ import com.example.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CartService {
 
     @Autowired
@@ -27,10 +30,10 @@ public class CartService {
     public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }
+
     public void addToCart(AddToCartDto addToCartDto,Product product, User user) {
             Cart cart = new Cart(product,addToCartDto.getQuantity(),user);
-            // save the cart
-        cartRepository.save(cart);
+            cartRepository.save(cart);
 
     }
     public CartDto listCartItems(User user) {
@@ -50,8 +53,9 @@ public class CartService {
         return  new CartDto(cartItems,totalCost);
     }
         public static CartItemDto getDtoFromCart(Cart cart){
-            retrun new CartItemDto(cart);
+            return new CartItemDto(cart);
         }
+
     public void deleteCartItem(Long cartItemId, Long  userId) {
         // the item id belongs to user
         if (!cartRepository.existsById(cartItemId)) {
