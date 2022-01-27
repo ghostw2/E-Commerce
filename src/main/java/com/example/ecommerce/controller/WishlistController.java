@@ -31,7 +31,7 @@ public class WishlistController {
         //find the user
         User user = tokenService.getUser(token);
         //save the item in the wishlist
-        Wishlist wishlist = new Wishlist(user, product);
+        Wishlist wishlist = new Wishlist(user,product);
 
         wishlistService.createWishList(wishlist);
 
@@ -46,9 +46,11 @@ public class WishlistController {
         tokenService.authenticate(token);
         //find the user
         User user = tokenService.getUser(token);
+        Long user_id = user.getId();
+        List<Wishlist> body = wishlistService.readWishList(user_id);
         //get wishlist
-        List<ProductDto> productDtos = wishlistService.getWishListForUser(user);
-
+        //List<ProductDto> productDtos = wishlistService.getWishListForUser(user);
+//check this!!!!!!!!!!!!!!!!!!!!!
         return  new ResponseEntity<>(productDtos,HttpStatus.OK);
     }
 }

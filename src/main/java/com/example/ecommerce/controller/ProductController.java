@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +34,10 @@ public class ProductController {
     @GetMapping("/")
     public ResponseEntity<List<ProductDto>> getProducts(){
         List<ProductDto> products = productService.getAllProducts();
-        return new ResponseEntity<>(products,HttpStatus.OK);
+        return new ResponseEntity<List<ProductDto>>(products,HttpStatus.OK);
     }
     @PostMapping("/update/{productId}")
-    public ResponseEntity<ApiResponse> updateCategory(@PathVariable("productId") Long productId,@RequestBody ProductDto productDto)
+    public ResponseEntity<ApiResponse> updateCategory(@PathVariable("productId") Long productId, @RequestBody @Valid ProductDto productDto)
     throws  Exception {
         //find category
         Optional<Category> optionalCategory = categoryRepo.findById(productDto.getCategoryId());
@@ -44,7 +45,8 @@ public class ProductController {
         if(!optionalCategory.isPresent()){
             return new ResponseEntity<>(new ApiResponse(false," category not found"),HttpStatus.BAD_REQUEST);
         }
-        productService.updateProduct(productDto,productId);
+        Category category = optionalCategory.get();
+        productService.updateProduct(productDto,productId,category);
         return new ResponseEntity<>(new ApiResponse(true,"updated product succesfully"),HttpStatus.OK);
     }
 }

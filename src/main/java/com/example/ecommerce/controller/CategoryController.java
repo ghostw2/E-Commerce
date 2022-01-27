@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,14 +18,17 @@ public class CategoryController {
     @Autowired
     public CategoryService categoryService;
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse> createCategory(@RequestBody Category category){
+    public ResponseEntity<ApiResponse> createCategory(@Valid @RequestBody Category category){
+        if ((categoryService.readCategory(category.getCategoryName()))!=null) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category already exists"), HttpStatus.CONFLICT);
+        }
         categoryService.createCategory(category);
         return new ResponseEntity<>(new ApiResponse(true,"creatded new category succesfully"),HttpStatus.CREATED);
     }
-    @GetMapping("/list")
-    public List<Category> getCategory(){
-        return categoryService.listCategory();
-
+    @GetMapping("/")
+    public ResponseEntity<List<Category>> getCategories(){
+        List<Category> body = categoryService.listCategory();
+        return  new ResponseEntity<List<Category>>(body,HttpStatus.OK);
     }
     @PostMapping("/update/{categoryId}")
     public ResponseEntity<ApiResponse> updateCategory(@PathVariable("categoryId") int categoryId,@RequestBody Category category){

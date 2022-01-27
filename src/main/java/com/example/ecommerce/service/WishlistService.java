@@ -29,7 +29,7 @@ public class WishlistService {
 //        }
 //        return productDtos;
 //    }
-    public List<Wishlist> readWishList(Integer userId) {
+    public List<Wishlist> readWishList(Long userId) {
         return wishlistRepo.findAllByUserIdOrderByCreatedDateDesc(userId);
     }
 }
