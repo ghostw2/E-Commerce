@@ -1,7 +1,7 @@
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.common.ApiResponse;
-import com.example.ecommerce.dto.ProductDto;
+import com.example.ecommerce.dto.product.ProductDto;
 import com.example.ecommerce.model.Category;
 import com.example.ecommerce.repository.CategoryRepository;
 import com.example.ecommerce.service.ProductService;

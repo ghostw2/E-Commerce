@@ -1,8 +1,7 @@
 package com.example.ecommerce.controller;
 
-import antlr.Token;
 import com.example.ecommerce.common.ApiResponse;
-import com.example.ecommerce.dto.ProductDto;
+import com.example.ecommerce.dto.product.ProductDto;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.model.Wishlist;

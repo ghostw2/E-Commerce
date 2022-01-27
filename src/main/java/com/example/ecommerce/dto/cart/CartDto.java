@@ -9,5 +9,8 @@ public class CartDto {
     private double totalCost;
     public CartDto() {
     }
-
+    public CartDto(List<CartItemDto> cartItemDtoList, double totalCost) {
+        this.cartItems = cartItemDtoList;
+        this.totalCost = totalCost;
+    }
 }

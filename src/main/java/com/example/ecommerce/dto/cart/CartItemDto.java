@@ -4,11 +4,13 @@ import com.example.ecommerce.model.Cart;
 import com.example.ecommerce.model.Product;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class CartItemDto {
     private Long id;
-    private Integer quantity;
-    private Product product;
+    private @NotNull Integer quantity;
+    private @NotNull Product product;
 
     public CartItemDto() {
     }

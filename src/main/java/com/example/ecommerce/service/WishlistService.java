@@ -1,14 +1,11 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.dto.ProductDto;
-import com.example.ecommerce.model.User;
 import com.example.ecommerce.model.Wishlist;
 import com.example.ecommerce.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

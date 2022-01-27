@@ -1,6 +1,6 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.dto.ProductDto;
+import com.example.ecommerce.dto.product.ProductDto;
 import com.example.ecommerce.exceptions.ProductNotExistException;
 import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;

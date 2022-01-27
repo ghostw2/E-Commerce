@@ -1,18 +1,13 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.config.MessageStrings;
-import com.example.ecommerce.dto.ProductDto;
 import com.example.ecommerce.exceptions.AuthenticationFailException;
 import com.example.ecommerce.model.AuthenticationToken;
 import com.example.ecommerce.model.User;
-import com.example.ecommerce.model.Wishlist;
 import com.example.ecommerce.repository.TokenRepository;
-import com.example.ecommerce.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Service
