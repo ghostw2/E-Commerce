@@ -2,21 +2,29 @@ package com.example.ecommerce.service;
 
 import com.example.ecommerce.dto.cart.CartDto;
 import com.example.ecommerce.dto.cart.CartItemDto;
+import com.example.ecommerce.dto.checkout.CheckoutItemDto;
+import com.example.ecommerce.exceptions.OrderNotFoundException;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.OrderItem;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.repository.OrderItemsRepository;
 import com.example.ecommerce.repository.OrderRepository;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.stripe.param.checkout.SessionCreateParams;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class OrderService {
     @Autowired
     private CartService cartService;
@@ -87,7 +95,7 @@ public class OrderService {
         // first let get cart items for the user
         CartDto cartDto = cartService.listCartItems(user);
 
-        List<CartItemDto> cartItemDtoList = cartDto.getcartItems();
+        List<CartItemDto> cartItemDtoList = cartDto.getCartItems();
 
         // create the order and save it
         Order newOrder = new Order();
@@ -117,7 +125,7 @@ public class OrderService {
     }
 
 
-    public Order getOrder(Integer orderId) throws OrderNotFoundException {
+    public Order getOrder(Long orderId) throws OrderNotFoundException {
         Optional<Order> order = orderRepository.findById(orderId);
         if (order.isPresent()) {
             return order.get();

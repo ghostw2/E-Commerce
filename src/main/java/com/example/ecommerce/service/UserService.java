@@ -5,6 +5,8 @@ import com.example.ecommerce.dto.ResponseDto;
 import com.example.ecommerce.dto.user.SignInDto;
 import com.example.ecommerce.dto.user.SignInResponseDto;
 import com.example.ecommerce.dto.user.SignUpDto;
+import com.example.ecommerce.dto.user.UserCreateDto;
+import com.example.ecommerce.enums.Role;
 import com.example.ecommerce.exceptions.AuthenticationFailException;
 import com.example.ecommerce.exceptions.CustomException;
 import com.example.ecommerce.model.AuthenticationToken;
@@ -56,7 +58,7 @@ public class UserService {
             final AuthenticationToken authenticationToken = new AuthenticationToken(user);
             authenticationService.saveAuthenticationToken(authenticationToken);
             // success in creating
-            return new ResponseDto(ResponseStatus.success.toString(), USER_CREATED);
+            return new ResponseDto(USER_CREATED, USER_CREATED);
         } catch (Exception e) {
             // handle signup error
             throw new CustomException(e.getMessage());
@@ -121,7 +123,7 @@ public class UserService {
             createdUser = userRepository.save(user);
             final AuthenticationToken authenticationToken = new AuthenticationToken(createdUser);
             authenticationService.saveAuthenticationToken(authenticationToken);
-            return new ResponseDto(ResponseStatus.success.toString(), USER_CREATED);
+            return new ResponseDto(USER_CREATED, USER_CREATED);
         } catch (Exception e) {
             // handle user creation fail error
             throw new CustomException(e.getMessage());
@@ -136,7 +138,7 @@ public class UserService {
         return false;
     }
 
-    boolean canCrudUser(User userUpdating, Integer userIdBeingUpdated) {
+    boolean canCrudUser(User userUpdating, Long userIdBeingUpdated) {
         Role role = userUpdating.getRole();
         // admin and manager can crud any user
         if (role == Role.admin || role == Role.manager) {

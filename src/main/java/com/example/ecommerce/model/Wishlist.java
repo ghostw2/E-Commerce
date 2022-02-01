@@ -27,10 +27,7 @@ public class Wishlist {
     public Wishlist() {
     }
 
-    public Wishlist(User user,Product product){
-        this.user = user;
-        this.product = product;
-    }
+
     public Wishlist(User user, Product product) {
         this.user = user;
         this.product = product;

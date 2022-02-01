@@ -27,7 +27,7 @@ public class Product {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
-    private Wishlist wishlist;
+    private List<Wishlist> wishListList;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")

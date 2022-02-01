@@ -41,7 +41,7 @@ public class WishlistController {
     }
     //get products from wishlist
     @GetMapping("{token}")
-    public ResponseEntity<List<ProductDto>> getWishList(@PathVariable("token") String token){
+    public ResponseEntity<List<Wishlist>> getWishList(@PathVariable("token") String token){
         //authenticate the token
         tokenService.authenticate(token);
         //find the user
@@ -51,6 +51,6 @@ public class WishlistController {
         //get wishlist
         //List<ProductDto> productDtos = wishlistService.getWishListForUser(user);
 //check this!!!!!!!!!!!!!!!!!!!!!
-        return  new ResponseEntity<>(productDtos,HttpStatus.OK);
+        return  new ResponseEntity<List<Wishlist>>(body,HttpStatus.OK);
     }
 }
