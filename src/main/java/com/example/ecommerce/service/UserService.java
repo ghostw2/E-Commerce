@@ -52,7 +52,6 @@ public class UserService {
         User createdUser;
         try {
             // save the user
-
             userRepository.save(user);
             // create the token
             final AuthenticationToken authenticationToken = new AuthenticationToken(user);
@@ -98,7 +97,7 @@ public class UserService {
             throw new CustomException("token is not present");
         }
 
-        return new SignInResponseDto("sucess", token.getToken());
+        return new SignInResponseDto( token.getToken(),"sucess");
 
         // return response
     }

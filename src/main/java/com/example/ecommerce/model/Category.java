@@ -1,12 +1,12 @@
 package com.example.ecommerce.model;
 
-import lombok.Data;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
-@Data
+
 @Entity
 @Table(name = "category")
 public class Category {
@@ -36,6 +36,45 @@ public class Category {
         this.imageUrl = imageUrl;
     }
 
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer id) {
+        Id = id;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 
     public Category() {
 

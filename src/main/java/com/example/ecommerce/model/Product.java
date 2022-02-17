@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Data
+
 @Table(name = "products")
 public class Product {
     @Id
@@ -51,4 +51,71 @@ public class Product {
     }
 
 
+    public Product() {
+
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Wishlist> getWishListList() {
+        return wishListList;
+    }
+
+    public void setWishListList(List<Wishlist> wishListList) {
+        this.wishListList = wishListList;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
 }
