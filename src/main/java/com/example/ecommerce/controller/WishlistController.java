@@ -5,6 +5,7 @@ import com.example.ecommerce.dto.product.ProductDto;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.model.Wishlist;
+import com.example.ecommerce.service.ProductService;
 import com.example.ecommerce.service.TokenService;
 import com.example.ecommerce.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,16 +43,18 @@ public class WishlistController {
     }
     //get products from wishlist
     @GetMapping("{token}")
-    public ResponseEntity<List<Wishlist>> getWishList(@PathVariable("token") String token){
+    public ResponseEntity<List<ProductDto>> getWishList(@PathVariable("token") String token){
         //authenticate the token
         tokenService.authenticate(token);
         //find the user
         User user = tokenService.getUser(token);
         Long user_id = user.getId();
         List<Wishlist> body = wishlistService.readWishList(user_id);
-        //get wishlist
-        //List<ProductDto> productDtos = wishlistService.getWishListForUser(user);
-//check this!!!!!!!!!!!!!!!!!!!!!
-        return  new ResponseEntity<List<Wishlist>>(body,HttpStatus.OK);
+        List<ProductDto> products = new ArrayList<ProductDto>();
+        for (Wishlist wishList : body) {
+            products.add(ProductService.getDtoFromProduct(wishList.getProduct()));
+        }
+
+        return  new ResponseEntity<List<ProductDto>>(products,HttpStatus.OK);
     }
 }

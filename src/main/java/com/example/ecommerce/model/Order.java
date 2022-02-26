@@ -1,7 +1,7 @@
 package com.example.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name="orders")
-@Data
+
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +33,53 @@ public class Order {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private  User user;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Order() {
 

@@ -1,5 +1,6 @@
 package com.example.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @JsonIgnore
     @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
     @JoinColumn(nullable = false,name = "user_id")
     private User user;
